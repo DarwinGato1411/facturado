@@ -628,15 +628,16 @@ public class ListaFacturas {
 //                                    nombreArchivoXML,
 //                                    amb.getAmClaveAccesoSri(),
 //                                    amb, foldervoAutorizado);
+                            ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
+                            /*GUARDA EL PATH PDF CREADO*/
+                            valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
+                            servicioFactura.modificar(valor);
 
                             fEnvio = new File(archivoEnvioCliente);
 
                             System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
                             ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT", amb);
-//                            ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
-                            /*GUARDA EL PATH PDF CREADO*/
-                            valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
-                            servicioFactura.modificar(valor);
+//                     
                             /*envia el mail*/
 
                             String[] attachFiles = new String[2];
@@ -799,8 +800,11 @@ public class ListaFacturas {
                     } catch (java.text.ParseException ex) {
                         Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    /*se agrega la la autorizacion, fecha de autorizacion y se firma nuevamente*/
+                    /*GUARDA EL PATH PDF CREADO*/
+                    valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
+                    servicioFactura.modificar(valor);
+                    /*envia el mail*/
+ /*se agrega la la autorizacion, fecha de autorizacion y se firma nuevamente*/
                     archivoEnvioCliente = aut.generaXMLFactura(valor, amb, foldervoAutorizado, nombreArchivoXML, Boolean.TRUE, autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
                     XAdESBESSignature.firmar(archivoEnvioCliente,
                                 nombreArchivoXML,
@@ -808,33 +812,29 @@ public class ListaFacturas {
                                 amb, foldervoAutorizado);
 
                     fEnvio = new File(archivoEnvioCliente);
-                }
 
-                System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
-                ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT", amb);
+                    System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
+                    ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT", amb);
 //                ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
-                /*GUARDA EL PATH PDF CREADO*/
-                valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
-                servicioFactura.modificar(valor);
-                /*envia el mail*/
 
-                String[] attachFiles = new String[2];
-                attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
-                attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
-                MailerClass mail = new MailerClass();
-                if (valor.getIdCliente().getCliClave() == null) {
-                    Cliente mod = valor.getIdCliente();
-                    mod.setCliClave(ArchivoUtils.generaraClaveTemporal());
-                    servicioCliente.modificar(mod);
-                }
-                if (valor.getIdCliente().getCliCorreo() != null) {
-                    mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                                attachFiles,
-                                "FACTURA ELECTRONICA",
-                                valor.getFacClaveAcceso(),
-                                valor.getFacNumeroText(),
-                                valor.getFacTotal(),
-                                valor.getIdCliente().getCliNombre(), amb);
+                    String[] attachFiles = new String[2];
+                    attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
+                    attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
+                    MailerClass mail = new MailerClass();
+                    if (valor.getIdCliente().getCliClave() == null) {
+                        Cliente mod = valor.getIdCliente();
+                        mod.setCliClave(ArchivoUtils.generaraClaveTemporal());
+                        servicioCliente.modificar(mod);
+                    }
+                    if (valor.getIdCliente().getCliCorreo() != null) {
+                        mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
+                                    attachFiles,
+                                    "FACTURA ELECTRONICA",
+                                    valor.getFacClaveAcceso(),
+                                    valor.getFacNumeroText(),
+                                    valor.getFacTotal(),
+                                    valor.getIdCliente().getCliNombre(), amb);
+                    }
                 }
 
             }
