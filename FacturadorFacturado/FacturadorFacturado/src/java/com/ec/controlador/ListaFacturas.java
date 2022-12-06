@@ -614,6 +614,7 @@ public class ListaFacturas {
                         } else {
 
                             valor.setFacClaveAutorizacion(claveAccesoComprobante);
+                            valor.setFacClaveAcceso(claveAccesoComprobante);
                             valor.setEstadosri(autorizacion.getEstado());
                             try {
                                 String fechaForm = sm.format(autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
@@ -747,8 +748,13 @@ public class ListaFacturas {
         /*amb.getAmClaveAccesoSri() es el la clave proporcionada por el SRI
         archivo es la ruta del archivo xml generado
         nomre del archivo a firmar*/
-        XAdESBESSignature.firmar(archivo, nombreArchivoXML,
+        try {
+            XAdESBESSignature.firmar(archivo, nombreArchivoXML,
                     amb.getAmClaveAccesoSri(), amb, folderFirmado);
+        } catch (Exception e) {
+             Clients.showNotification("VErifique la firma y la clave ", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+            return;
+        }
 
         f = new File(pathArchivoFirmado);
 

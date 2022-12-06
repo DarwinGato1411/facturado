@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2022-11-21T10:20:31")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2022-12-06T10:37:11")
 @StaticMetamodel(Parametrizar.class)
 public class Parametrizar_ { 
 
@@ -23,6 +23,7 @@ public class Parametrizar_ {
     public static volatile SingularAttribute<Parametrizar, String> parNombreImpresora;
     public static volatile SingularAttribute<Parametrizar, BigDecimal> parUtilidadPreferencial;
     public static volatile SingularAttribute<Parametrizar, BigDecimal> parIvaActual;
+    public static volatile SingularAttribute<Parametrizar, BigDecimal> parContratado;
     public static volatile SingularAttribute<Parametrizar, Boolean> parIlimitadoPermanente;
     public static volatile SingularAttribute<Parametrizar, BigDecimal> parIva;
     public static volatile SingularAttribute<Parametrizar, String> parRucEmpresa;
