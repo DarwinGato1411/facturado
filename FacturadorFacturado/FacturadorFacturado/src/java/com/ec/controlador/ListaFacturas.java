@@ -534,6 +534,7 @@ public class ListaFacturas {
 
  /*PARA CREAR EL ARCHIVO XML FIRMADO*/
         String nombreArchivoXML = File.separator + "FACT-"
+                    + valor.getCod_tipoambiente().getAmRuc() + "_"
                     + valor.getCodestablecimiento()
                     + valor.getPuntoemision()
                     + valor.getFacNumeroText() + ".xml";
@@ -750,9 +751,9 @@ public class ListaFacturas {
         nomre del archivo a firmar*/
         try {
             XAdESBESSignature.firmar(archivo, nombreArchivoXML,
-                    amb.getAmClaveAccesoSri(), amb, folderFirmado);
+                        amb.getAmClaveAccesoSri(), amb, folderFirmado);
         } catch (Exception e) {
-             Clients.showNotification("VErifique la firma y la clave ", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+            Clients.showNotification("VErifique la firma y la clave ", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
             return;
         }
 
