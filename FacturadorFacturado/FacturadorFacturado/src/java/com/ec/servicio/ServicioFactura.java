@@ -362,7 +362,7 @@ public class ServicioFactura {
         return facturas;
     }
 
-    public List<Factura> FindLikeCliente(String cliente,Tipoambiente codTipoambiente) {
+    public List<Factura> FindLikeCliente(String cliente, Tipoambiente codTipoambiente) {
 
         List<Factura> listaFacturas = new ArrayList<Factura>();
         try {
@@ -474,7 +474,7 @@ public class ServicioFactura {
 
         return listaFacturas;
     }
-    
+
     public List<Factura> findAllProformas(Tipoambiente codTipoAmbiente) {
 
         List<Factura> listaFacturas = new ArrayList<Factura>();
@@ -483,9 +483,9 @@ public class ServicioFactura {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT f FROM Factura f WHERE  f.facTipo='PROF' AND f.cod_tipoambiente=:codTipoAmbiente ORDER BY f.facFecha DESC");
-           query.setParameter("codTipoAmbiente", codTipoAmbiente);
+            query.setParameter("codTipoAmbiente", codTipoAmbiente);
             query.setMaxResults(400);
-      
+
             listaFacturas = (List<Factura>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -1173,4 +1173,34 @@ public class ServicioFactura {
 
         return listaFacturas;
     }
+
+    public Factura findTipoambienteNumFactura(Tipoambiente codTipoambiente, Integer numero) {
+
+        List<Factura> listaFacturas = new ArrayList<Factura>();
+        Factura facturas = new Factura();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT f FROM Factura f WHERE f.facTipo='FACT' AND f.facNumero IS NOT NULL AND f.cod_tipoambiente=:codTipoambiente AND f.facNumero=:numero ORDER BY f.facNumero DESC");
+            query.setParameter("codTipoambiente", codTipoambiente);
+            query.setParameter("numero", numero);
+
+//           query.setParameter("codigoUsuario", factura);
+            listaFacturas = (List<Factura>) query.getResultList();
+            if (listaFacturas.size() > 0) {
+                facturas = listaFacturas.get(0);
+            } else {
+                facturas = null;
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta factura " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return facturas;
+    }
+
 }
