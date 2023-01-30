@@ -18,7 +18,7 @@ import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2022-12-13T10:24:54")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2023-01-30T10:39:56")
 @StaticMetamodel(Factura.class)
 public class Factura_ { 
 
@@ -63,6 +63,7 @@ public class Factura_ {
     public static volatile SingularAttribute<Factura, BigDecimal> facValorSinSubsidio;
     public static volatile SingularAttribute<Factura, Cliente> idCliente;
     public static volatile SingularAttribute<Factura, String> mensajesri;
+    public static volatile SingularAttribute<Factura, String> facObservacion;
     public static volatile SingularAttribute<Factura, BigDecimal> facTotalBaseCero;
     public static volatile SingularAttribute<Factura, BigDecimal> facSubtotal;
     public static volatile SingularAttribute<Factura, String> facCodIva;
